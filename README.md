@@ -17,4 +17,4 @@ In this repository, you will find 10 folders corresponding to the 10 chapters of
 9. Developing Data Products
 10. Data Science Capstone
 
-In each folder there is a word document with the same title as the chapter which contains with my personal notes from the lectures. There will also be files and other resources from each chapter named accordingly.  
+In each folder there is a word document with the same title as the chapter which contains with my personal notes from the lectures. There are also files and other resources from each chapter named accordingly.  
