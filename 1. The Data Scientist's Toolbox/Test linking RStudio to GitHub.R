@@ -1,1 +1,0 @@
-print("This file was created in RStudio and now live on GitHub. I am using it to learn how to link RStudio to GitHub")
