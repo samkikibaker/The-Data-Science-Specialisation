@@ -1,7 +1,7 @@
 state <- "TX"
 outcome <- "heart failure"
 
-rankhospital <-function(state, outcome, num){
+rankhospital <-function(state, outcome, num = "best"){
   
   #First read in data
   data <- read.csv("outcome-of-care-measures.csv", colClasses = "character")
@@ -32,19 +32,25 @@ rankhospital <-function(state, outcome, num){
   
   #Coerce outcome values to numeric suppressing warning regarding NAs produced
     outcomeValues <- suppressWarnings(as.numeric(x[[colIndex]]))
-    
-  unsorted <- data.frame(x$Hospital.Name, outcomeValues)
-  sorted <- unsorted[order(unsorted[,2], unsorted[,1]),]
-  names(sorted) <- c("Hospital Name", "Rate")
   
-  if(num == "best"){
-    numIndex <- 1
+  #Create a data frame of hospital names and outcome rates  
+  unsorted <- data.frame(Hospital = x$Hospital.Name, Rate = outcomeValues)
+  
+  #Sort this data frame by outcome rate breaking ties by hospitl name alphabetically. Also rename columns
+  sorted <- unsorted[order(unsorted$Rate, unsorted$Hospital),]
+  names(sorted) <- c("Hospital", "Rate")
+  
+  #Create numIndex which deals with the cases when num is "best" or "worst". Note that in the case num = "worst" we want to extract the last non-missing rate value after the data has been sorted by rate 
+  numIndex <- if (num == "best") {
+    1
   } else if (num == "worst"){
-    numIndex <- sum(complete.cases(sorted))
-  }
-  else 
+    sum(!is.na(sorted$Rate))
+  } else {
     numIndex <- num
-  sorted$`Hospital Name`[numIndex]
+  }
+  
+ #Output hospital name of required rank 
+  sorted$`Hospital`[numIndex]
 }
 
 rankhospital("TX", "heart failure", 4)
